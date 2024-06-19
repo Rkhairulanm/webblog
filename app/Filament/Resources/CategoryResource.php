@@ -21,6 +21,9 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = 'Blog Management';
+
+
 
     public static function form(Form $form): Form
     {
@@ -65,5 +68,9 @@ class CategoryResource extends Resource
             'create' => Pages\CreateCategory::route('/create'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index'); // Alihkan ke halaman index setelah pembuatan
     }
 }

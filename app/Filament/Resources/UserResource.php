@@ -21,6 +21,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $navigationGroup = 'User Management';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -71,5 +73,9 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index'); // Alihkan ke halaman index setelah pembuatan
     }
 }

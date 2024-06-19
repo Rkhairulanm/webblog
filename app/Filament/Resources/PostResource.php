@@ -39,6 +39,8 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
+    protected static ?string $navigationGroup = 'Blog Management';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -151,5 +153,9 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index'); // Alihkan ke halaman index setelah pembuatan
     }
 }
