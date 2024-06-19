@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/test', function () {
+    return view('layouts.post', [
+        'title' => 'Home',
+    ]);
 });
+// Route::get('/contact', function () {
+//     return view('layouts.contact');
+// });
+
+Route::get('/', [MainController::class, 'index']);
+Route::get('/post/{slug}', [MainController::class, 'show'])->name('post');
+Route::get('/contact', [ContactController::class, 'index']);

@@ -42,9 +42,12 @@ class ContentResource extends Resource
                                     ->label('Name'),
                                 Select::make('type')
                                     ->options([
-                                        'sosmed' => 'Sosmed',
-                                        'contact' => 'contact',
-                                        'info' => 'Info',
+                                        'facebook' => 'Facebook',
+                                        'twitter' => 'Twitter',
+                                        'instagram' => 'Instagram',
+                                        'address' => 'Address',
+                                        'email' => 'Email',
+                                        'phone' => 'Phone Number',
                                     ])
                                     ->native(false)
                                     ->required()
@@ -93,8 +96,5 @@ class ContentResource extends Resource
             'edit' => Pages\EditContent::route('/{record}/edit'),
         ];
     }
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index'); // Alihkan ke halaman index setelah pembuatan
-    }
+
 }

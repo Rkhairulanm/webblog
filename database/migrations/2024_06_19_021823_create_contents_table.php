@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->enum('type', ['sosmed','contact', 'info']);
+            $table->enum('type', ['facebook', 'twitter', 'instagram', 'address', 'email', 'phone']);
             $table->string('name');
             $table->timestamps();
         });
