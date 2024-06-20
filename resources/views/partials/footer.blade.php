@@ -17,18 +17,17 @@
                         <li><a href="/contact"><i class="bi bi-chevron-right"></i> Contact</a></li>
                     </ul>
                 </div>
+                @php
+                    $category = \App\Models\Category::get();
+                    $post = \App\Models\Post::orderBy('created_at', 'desc')->take(3)->get();
+                @endphp
                 <div class="col-6 col-lg-2">
                     <h3 class="footer-heading">Categories</h3>
                     <ul class="footer-links list-unstyled">
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
-                        <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
-
+                        @foreach ($category as $k)
+                            <li><a href="category-{{ $k->slug }}"><i
+                                        class="bi bi-chevron-right"></i>{{ $k->name }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -36,57 +35,28 @@
                     <h3 class="footer-heading">Recent Posts</h3>
 
                     <ul class="footer-links footer-blog-entry list-unstyled">
-                        <li>
-                            <a href="single-post.html" class="d-flex align-items-center">
-                                <img src="assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
-                                <div>
-                                    <div class="post-meta d-block"><span class="date">Culture</span> <span
-                                            class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                                    <span>5 Great Startup Tips for Female Founders</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="single-post.html" class="d-flex align-items-center">
-                                <img src="assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
-                                <div>
-                                    <div class="post-meta d-block"><span class="date">Culture</span> <span
-                                            class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing
-                                        Now?</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="single-post.html" class="d-flex align-items-center">
-                                <img src="assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
-                                <div>
-                                    <div class="post-meta d-block"><span class="date">Culture</span> <span
-                                            class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="single-post.html" class="d-flex align-items-center">
-                                <img src="assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
-                                <div>
-                                    <div class="post-meta d-block"><span class="date">Culture</span> <span
-                                            class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
-                                </div>
-                            </a>
-                        </li>
-
+                        @foreach ($post as $item)
+                            <li>
+                                <a href="post-{{ $item->slug }}" class="d-flex align-items-center">
+                                    <img src="{{ Storage::url($item->thumbnail) }}" alt=""
+                                        class="img-fluid me-3">
+                                    <div>
+                                        <div class="post-meta d-block"><span
+                                                class="date">{{ $item->category->name }}</span> <span
+                                                class="mx-1">&bullet;</span>
+                                            <span>{{ $item->created_at->format('M d, Y') }}</span>
+                                        </div>
+                                        <span>{{ $item->title }}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
-
                 </div>
             </div>
         </div>
     </div>
+
     @php
         $instagram = \App\Models\Content::where('type', 'instagram')->first();
         $twitter = \App\Models\Content::where('type', 'twitter')->first();

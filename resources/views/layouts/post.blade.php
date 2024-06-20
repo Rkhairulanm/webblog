@@ -18,7 +18,6 @@
                         <!-- Adding the image -->
                         <figure class="my-4">
                             <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->title }}" class="img-fluid w-75">
-                            <figcaption>{{ $post->title }}</figcaption>
                         </figure>
 
                         {!! $post->content !!}

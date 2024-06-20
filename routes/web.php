@@ -17,7 +17,7 @@ use App\Http\Controllers\MainController;
 
 
 Route::get('/test', function () {
-    return view('layouts.post', [
+    return view('layouts.category', [
         'title' => 'Home',
     ]);
 });
@@ -26,5 +26,6 @@ Route::get('/test', function () {
 // });
 
 Route::get('/', [MainController::class, 'index']);
-Route::get('/post/{slug}', [MainController::class, 'show'])->name('post');
+Route::get('/post-{slug}', [MainController::class, 'show'])->name('post');
+Route::get('/category-{slug}', [MainController::class, 'category'])->name('post');
 Route::get('/contact', [ContactController::class, 'index']);

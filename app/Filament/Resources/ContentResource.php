@@ -37,7 +37,6 @@ class ContentResource extends Resource
                             ->schema([
                                 TextInput::make('name')
                                     ->required()
-                                    ->unique(Content::class, 'name', ignoreRecord: true)
                                     ->placeholder('Masukan Nama Konten')
                                     ->label('Name'),
                                 Select::make('type')
@@ -49,6 +48,7 @@ class ContentResource extends Resource
                                         'email' => 'Email',
                                         'phone' => 'Phone Number',
                                     ])
+                                    ->unique()
                                     ->native(false)
                                     ->required()
                                     ->label('Type'),
@@ -96,5 +96,4 @@ class ContentResource extends Resource
             'edit' => Pages\EditContent::route('/{record}/edit'),
         ];
     }
-
 }

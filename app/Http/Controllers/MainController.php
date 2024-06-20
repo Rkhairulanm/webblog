@@ -11,10 +11,9 @@ class MainController extends Controller
     public function index()
     {
         $posts = Post::where('published', true)->orderBy('created_at', 'desc')->get();
-        $trendingPosts = Post::where('published', true)->orderBy('title', 'desc')->take(5)->get();
         $title = 'Home';
 
-        return view('layouts.index', compact('posts', 'trendingPosts', 'title'));
+        return view('layouts.index', compact('posts', 'title'));
     }
     public function post()
     {
@@ -30,5 +29,15 @@ class MainController extends Controller
         $category = Category::get();
         $title = $post->title;
         return view('layouts.post', compact('post', 'category', 'title'));
+    }
+
+    public function category($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+        $posts = Post::where('category_id', $category->id)->get();
+        $listcategory = Category::get();
+        // dd($posts);
+        $title = $category->name;
+        return view('layouts.category', compact('category', 'posts', 'title', 'listcategory'));
     }
 }

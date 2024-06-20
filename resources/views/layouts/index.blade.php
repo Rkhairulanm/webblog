@@ -10,7 +10,7 @@
                         <div class="swiper-wrapper">
                             @foreach ($posts->take(4) as $post)
                                 <div class="swiper-slide">
-                                    <a href="{{ route('post', $post->slug) }}" class="img-bg d-flex align-items-end"
+                                    <a href="post-{{ $post->slug }}" class="img-bg d-flex align-items-end"
                                         style="background-image: url('{{ Storage::url($post->thumbnail) }}');">
                                         <div class="img-bg-inner">
                                             <h2>{{ $post->title }}</h2>
@@ -42,16 +42,15 @@
                         @foreach ($posts as $post)
                             <div class="col-lg-3 border-start custom-border">
                                 <div class="post-entry-1">
-                                    <a href="{{ route('post', $post->slug) }}"><img
-                                            src="{{ Storage::url($post->thumbnail) }}" alt=""
-                                            class="img-fluid img-thumbnail"
+                                    <a href="post-{{ $post->slug }}"><img src="{{ Storage::url($post->thumbnail) }}"
+                                            alt="" class="img-fluid img-thumbnail"
                                             style="box-shadow: 0px 0px 10px {{ $post->color }};"></a>
                                     <div class="post-meta">
                                         <span class="date">{{ $post->category->name }}</span>
                                         <span class="mx-1">&bullet;</span>
                                         <span>{{ $post->created_at->format('M d, Y') }}</span>
                                     </div>
-                                    <h2><a href="{{ route('post', $post->slug) }}">{{ $post->title }}</a></h2>
+                                    <h2><a href="post-{{ $post->slug }}">{{ $post->title }}</a></h2>
                                 </div>
                             </div>
                             @if ($loop->iteration % 4 == 0 && !$loop->last)

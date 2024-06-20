@@ -6,10 +6,19 @@
             <!-- <img src="assets/img/logo.png" alt=""> -->
             <h1>WebBlog</h1>
         </a>
-
+        @php
+            $category = \App\Models\Category::get();
+        @endphp
         <nav id="navbar" class="navbar">
             <ul>
                 <li><a href="/">Blog</a></li>
+                <li class="dropdown ps-4"><span>Categories</span> <i class="bi bi-chevron-down dropdown-indicator"></i>
+                    <ul>
+                        @foreach ($category as $k)
+                            <li><a href="category-{{ $k->slug }}">{{ $k->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
         </nav><!-- .navbar -->
