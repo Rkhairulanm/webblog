@@ -48,7 +48,7 @@ class ContentResource extends Resource
                                         'email' => 'Email',
                                         'phone' => 'Phone Number',
                                     ])
-                                    ->unique()
+                                    ->unique(ignoreRecord: true)
                                     ->native(false)
                                     ->required()
                                     ->label('Type'),

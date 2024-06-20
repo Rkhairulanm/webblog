@@ -11,35 +11,35 @@
             </div>
 
             <div class="row gy-4">
-                @foreach ($address as $item)
-                    <div class="col-md-4">
-                        <div class="info-item">
-                            <i class="bi bi-geo-alt"></i>
-                            <h3>Adress</h3>
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <i class="bi bi-geo-alt"></i>
+                        <h3>Adress</h3>
+                        @foreach ($address as $item)
                             <address>{{ $item->content }}</address>
-                        </div>
-                    </div><!-- End Info Item -->
-                @endforeach
+                        @endforeach
+                    </div>
+                </div><!-- End Info Item -->
 
-                @foreach ($phone as $item)
-                    <div class="col-md-4">
-                        <div class="info-item info-item-borders">
-                            <i class="bi bi-phone"></i>
-                            <h3>Phone Number</h3>
+                <div class="col-md-4">
+                    <div class="info-item info-item-borders">
+                        <i class="bi bi-phone"></i>
+                        <h3>Phone Number</h3>
+                        @foreach ($phone as $item)
                             <p><a href="https://wa.me/62{{ $item->content }}">{{ $item->content }}</a></p>
-                        </div>
-                    </div><!-- End Info Item -->
-                @endforeach
+                        @endforeach
+                    </div>
+                </div><!-- End Info Item -->
 
-                @foreach ($email as $item)
-                    <div class="col-md-4">
-                        <div class="info-item">
-                            <i class="bi bi-envelope"></i>
-                            <h3>Email</h3>
-                            <p><a href="mailto:info@example.com">{{ $item->content }}</a></p>
-                        </div>
-                    </div><!-- End Info Item -->
-                @endforeach
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <i class="bi bi-envelope"></i>
+                        <h3>Email</h3>
+                        @foreach ($email as $item)
+                            <p><a href="mailto:{{ $item->content }}">{{ $item->content }}</a></p>
+                        @endforeach
+                    </div>
+                </div><!-- End Info Item -->
 
 
             </div>
