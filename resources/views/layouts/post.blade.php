@@ -37,7 +37,7 @@
                         <h3 class="aside-title">Categories</h3>
                         <ul class="aside-links list-unstyled">
                             @foreach ($category as $category)
-                                <li><a href="#"><i class="bi bi-chevron-right"></i> {{ $category->name }}</a></li>
+                                <li><a href="category-{{ $category->slug }}"><i class="bi bi-chevron-right"></i> {{ $category->name }}</a></li>
                             @endforeach
                         </ul>
                     </div><!-- End Categories -->
