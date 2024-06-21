@@ -24,6 +24,8 @@
                 <div class="col-6 col-lg-2">
                     <h3 class="footer-heading">Categories</h3>
                     <ul class="footer-links list-unstyled">
+                        <li><a href="category-all"><i
+                                    class="bi bi-chevron-right"></i>Semua Kategori</a></li>
                         @foreach ($category as $k)
                             <li><a href="category-{{ $k->slug }}"><i
                                         class="bi bi-chevron-right"></i>{{ $k->name }}</a></li>

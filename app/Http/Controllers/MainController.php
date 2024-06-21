@@ -46,8 +46,8 @@ class MainController extends Controller
                     ->paginate(4);
                 $title = 'Hasil Pencarian untuk Kategori: ' . $category->name;
             } else {
-                $posts = Post::paginate(4);
-                $title = 'Category All';
+                $posts = collect();
+                $title = 'Hasil Pencarian Tidak Ditemukan';
             }
         } else {
             $posts = Post::paginate(4);
@@ -58,6 +58,7 @@ class MainController extends Controller
 
         return view('layouts.category', compact('posts', 'title', 'listcategory', 'keyword'));
     }
+
     public function category(Request $request, $slug)
     {
         $keyword = $request->keyword;
