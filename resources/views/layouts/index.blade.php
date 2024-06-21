@@ -39,6 +39,9 @@
             <div class="row g-5">
                 <div class="col-lg-12">
                     <div class="row g-5">
+                        @if ($gagal)
+                            <h3 class="category-title">{{ $gagal }}</h3>
+                        @endif
                         @foreach ($posts as $post)
                             <div class="col-lg-3 border-start custom-border">
                                 <div class="post-entry-1">

@@ -14,9 +14,15 @@ class MainController extends Controller
         $post = Post::where('published', true)->orderBy('created_at', 'desc')->get();
         $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')
             ->where('published', true)->orderBy('created_at', 'desc')->get();
+
+            if($posts->isEmpty()){
+                $gagal = 'Hasil Pencarian Tidak Di Temukan';
+            }else{
+                $gagal = '';
+            }
         $title = 'Home';
 
-        return view('layouts.index', compact('posts', 'title', 'post'));
+        return view('layouts.index', compact('posts', 'title', 'post', 'gagal'));
     }
     public function post()
     {
