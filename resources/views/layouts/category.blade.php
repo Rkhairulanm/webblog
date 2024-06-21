@@ -6,7 +6,13 @@
             <div class="row">
 
                 <div class="col-md-9" data-aos="fade-up">
-                    <h3 class="category-title">Category: {{ $category->name }}</h3>
+                    @if ($title == 'Category All')
+                    @elseif (Str::startsWith($title, 'Hasil Pencarian untuk Kategori:'))
+                        <h3 class="category-title">Hasil Pencarian Dari : {{ $keyword }}</h3>
+                    @else
+                        <h3 class="category-title">Category: {{ $category->name }}</h3>
+                    @endif
+
                     @foreach ($posts as $item)
                         <div class="d-md-flex post-entry-2 half">
                             <a href="post-{{ $item->slug }}" class="me-4 thumbnail">
@@ -14,7 +20,7 @@
                                     style="box-shadow: 0px 0px 10px {{ $item->color }};" alt="" class="img-fluid">
                             </a>
                             <div>
-                                <div class="post-meta"><span class="date"> {{ $category->name }}</span> <span
+                                <div class="post-meta"><span class="date"> {{ $item->category->name }}</span> <span
                                         class="mx-1">&bullet;</span>
                                     <span>{{ $item->created_at->format('M d, Y') }}</span>
                                 </div>
@@ -29,18 +35,10 @@
                             </div>
                         </div>
                     @endforeach
+                    <div class="text-start py-4">
+                        {{ $posts->links() }}
+                    </div>
 
-                    {{-- <div class="text-start py-4">
-                        <div class="custom-pagination">
-                            <a href="#" class="prev">Prevous</a>
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#" class="next">Next</a>
-                        </div>
-                    </div> --}}
                 </div>
 
                 <div class="col-md-3">

@@ -8,7 +8,7 @@
                 <div class="col-12">
                     <div class="swiper sliderFeaturedPosts">
                         <div class="swiper-wrapper">
-                            @foreach ($posts->take(4) as $post)
+                            @foreach ($post->take(4) as $post)
                                 <div class="swiper-slide">
                                     <a href="post-{{ $post->slug }}" class="img-bg d-flex align-items-end"
                                         style="background-image: url('{{ Storage::url($post->thumbnail) }}');">

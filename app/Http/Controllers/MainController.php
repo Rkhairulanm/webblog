@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::where('published', true)->orderBy('created_at', 'desc')->get();
+        $keyword = $request->keyword;
+        $post = Post::where('published', true)->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')
+            ->where('published', true)->orderBy('created_at', 'desc')->get();
         $title = 'Home';
 
-        return view('layouts.index', compact('posts', 'title'));
+        return view('layouts.index', compact('posts', 'title', 'post'));
     }
     public function post()
     {
@@ -31,13 +34,48 @@ class MainController extends Controller
         return view('layouts.post', compact('post', 'category', 'title'));
     }
 
-    public function category($slug)
+    public function categoryall(Request $request)
     {
-        $category = Category::where('slug', $slug)->firstOrFail();
-        $posts = Post::where('category_id', $category->id)->get();
-        $listcategory = Category::get();
-        // dd($posts);
+        $keyword = $request->keyword;
+
+        if ($keyword) {
+            $category = Category::where('name', 'LIKE', '%' . $keyword . '%')->first();
+
+            if ($category) {
+                $posts = Post::where('category_id', $category->id)
+                    ->paginate(4);
+                $title = 'Hasil Pencarian untuk Kategori: ' . $category->name;
+            } else {
+                $posts = Post::paginate(4);
+                $title = 'Category All';
+            }
+        } else {
+            $posts = Post::paginate(4);
+            $title = 'Category All';
+        }
+
+        $listcategory = Category::all();
+
+        return view('layouts.category', compact('posts', 'title', 'listcategory', 'keyword'));
+    }
+    public function category(Request $request, $slug)
+    {
+        $keyword = $request->keyword;
+
+        if ($keyword) {
+            $category = Category::where('name', 'LIKE', '%' . $keyword . '%')
+                ->where('slug', $slug)
+                ->firstOrFail();
+        } else {
+            $category = Category::where('slug', $slug)->firstOrFail();
+        }
+
+        $posts = Post::where('category_id', $category->id)
+            ->paginate(4);
+
+        $listcategory = Category::all();
         $title = $category->name;
-        return view('layouts.category', compact('category', 'posts', 'title', 'listcategory'));
+
+        return view('layouts.category', compact('category', 'posts', 'title', 'listcategory', 'keyword'));
     }
 }
