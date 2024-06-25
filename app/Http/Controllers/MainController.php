@@ -33,7 +33,10 @@ class MainController extends Controller
         $taglist = Tag::take(20)->get();
         $related = Post::whereHas('tags', function ($q) use ($tags) {
             $q->whereIn('tags.id', $tags);
-        })->where('id', '!=', $post->id)->take(4)->get();
+        })->where('id', '!=', $post->id)
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
         return view('layouts.post', compact('post', 'related', 'taglist', 'listcategory'));
     }
 
@@ -124,12 +127,13 @@ class MainController extends Controller
 
         $listcategory = Category::all();
 
-        $title = 'Posts tagged with '. $tag->name;
+        $title = 'Posts tagged with ' . $tag->name;
 
         return view('layouts.search', compact('tag', 'posts', 'taglist', 'listcategory', 'title'));
     }
 
-    public function taglist(){
+    public function taglist()
+    {
         $taglist = Tag::all();
         return view('layouts.taglist', compact('taglist'));
     }
