@@ -21,6 +21,7 @@
                         @endforeach
                     </ul>
                 </li>
+                <li><a href="/taglist">Tags List</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
         </nav><!-- .navbar -->
@@ -33,11 +34,11 @@
 
             <!-- ======= Form Pencarian ======= -->
             <div class="search-form-wrap js-search-form-wrap">
-                <form action="{{ $title == 'Home' || $title == 'Contact' ? '/' : '/category-all' }}" method="GET"
+                <form action="/search" method="GET"
                     class="search-form">
                     <span class="icon bi-search"></span>
                     <input type="text"
-                        placeholder="{{ $title == 'Home' ? 'Cari berdasarkan Judul' : 'Cari Berdasarkan Kategori' }}"
+                        placeholder="Cari Post"
                         name="keyword" class="form-control">
                     <button type="button" class="btn js-search-close"><span class="bi-x"></span></button>
                 </form>

@@ -29,4 +29,7 @@ Route::get('/', [MainController::class, 'index']);
 Route::get('/post-{slug}', [MainController::class, 'show'])->name('post');
 Route::get('/category-all', [MainController::class, 'categoryall'])->name('post');
 Route::get('/category-{slug}', [MainController::class, 'category'])->name('post');
+Route::get('/tag-{name}', [MainController::class, 'tag'])->name('post');
+Route::get('/taglist', [MainController::class, 'taglist']);
+Route::get('/search', [MainController::class, 'search']);
 Route::get('/contact', [ContactController::class, 'index']);

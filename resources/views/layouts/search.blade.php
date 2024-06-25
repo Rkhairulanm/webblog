@@ -4,16 +4,17 @@
     <section>
         <div class="container">
             <div class="row">
-
                 <div class="col-md-9" data-aos="fade-up">
-                    @if ($title == 'Category All')
-                    @elseif (Str::startsWith($title, 'Hasil Pencarian untuk Kategori:'))
-                        <h3 class="category-title">Hasil Pencarian Dari : {{ $keyword }}</h3>
-                    @elseif ($title == 'Hasil Pencarian Tidak Ditemukan')
-                        <h3 class="category-title">Hasil Pencarian Tidak Ditemukan</h3>
-                    @else
-                        <h3 class="category-title">Category: {{ $category->name }}</h3>
+                    @if (Str::startsWith($title, 'Posts'))
+                    <h3 class="category-title">Tag : {{ $tag->name }}</h3>
                     @endif
+                        @if (isset($keyword) && Str::startsWith($title, 'Hasil Pencarian'))
+                            @if (isset($keyword) && Str::startsWith($title, 'Hasil Pencarian untuk:'))
+                                <h3 class="category-title">Hasil Pencarian Dari: {{ $keyword }}</h3>
+                            @elseif ($title == 'Hasil Pencarian Tidak Ditemukan')
+                                <h3 class="category-title">Hasil Pencarian Tidak Ditemukan</h3>
+                            @endif
+                        @endif
 
                     @if ($posts->isNotEmpty())
                         @foreach ($posts as $item)
@@ -24,8 +25,9 @@
                                         class="img-fluid">
                                 </a>
                                 <div>
-                                    <div class="post-meta"><span class="date"> {{ $item->category->name }}</span> <span
-                                            class="mx-1">&bullet;</span>
+                                    <div class="post-meta">
+                                        <span class="date">{{ $item->category->name }}</span>
+                                        <span class="mx-1">&bullet;</span>
                                         <span>{{ $item->created_at->format('M d, Y') }}</span>
                                     </div>
                                     <h3><a href="post-{{ $item->slug }}">{{ $item->title }}</a></h3>
@@ -42,12 +44,13 @@
                         <div class="text-start py-4">
                             {{ $posts->links() }}
                         </div>
+                    @else
+                        <p>Tidak ada posting yang ditemukan.</p>
                     @endif
-
                 </div>
+
                 <div class="col-md-3">
                     <!-- ======= Sidebar ======= -->
-
                     <div class="aside-block">
                         <h3 class="aside-title">Categories</h3>
                         <ul class="aside-links list-unstyled">

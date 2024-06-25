@@ -24,8 +24,7 @@
                 <div class="col-6 col-lg-2">
                     <h3 class="footer-heading">Categories</h3>
                     <ul class="footer-links list-unstyled">
-                        <li><a href="category-all"><i
-                                    class="bi bi-chevron-right"></i>Semua Kategori</a></li>
+                        <li><a href="all"><i class="bi bi-chevron-right"></i>Semua Kategori</a></li>
                         @foreach ($category as $k)
                             <li><a href="category-{{ $k->slug }}"><i
                                         class="bi bi-chevron-right"></i>{{ $k->name }}</a></li>
@@ -90,15 +89,16 @@
 
                 <div class="col-md-6">
                     <div class="social-links mb-3 mb-lg-0 text-center text-md-end">
-                        <a href="{{ $twitter->content }}" class="twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="{{ $facebook->content }}" class="facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="{{ $instagram->content }}" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="{{ $twitter ? $twitter->content : '#' }}" class="twitter"><i
+                                class="bi bi-twitter"></i></a>
+                        <a href="{{ $facebook ? $facebook->content : '#' }}" class="facebook"><i
+                                class="bi bi-facebook"></i></a>
+                        <a href="{{ $instagram ? $instagram->content : '#' }}" class="instagram"><i
+                                class="bi bi-instagram"></i></a>
                     </div>
 
                 </div>
-
             </div>
-
         </div>
     </div>
 </footer>

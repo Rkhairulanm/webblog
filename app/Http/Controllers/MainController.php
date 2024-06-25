@@ -2,27 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->keyword;
-        $post = Post::where('published', true)->orderBy('created_at', 'desc')->get();
-        $posts = Post::where('title', 'LIKE', '%' . $keyword . '%')
-            ->where('published', true)->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('published', true)->orderBy('created_at', 'desc')->get();
 
-            if($posts->isEmpty()){
-                $gagal = 'Hasil Pencarian Tidak Di Temukan';
-            }else{
-                $gagal = '';
-            }
         $title = 'Home';
 
-        return view('layouts.index', compact('posts', 'title', 'post', 'gagal'));
+        return view('layouts.index', compact('title', 'posts'));
     }
     public function post()
     {
@@ -35,10 +28,15 @@ class MainController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
-        $category = Category::get();
-        $title = $post->title;
-        return view('layouts.post', compact('post', 'category', 'title'));
+        $tags = $post->tags->pluck('id')->toArray();
+        $listcategory = Category::all();
+        $taglist = Tag::take(20)->get();
+        $related = Post::whereHas('tags', function ($q) use ($tags) {
+            $q->whereIn('tags.id', $tags);
+        })->where('id', '!=', $post->id)->take(4)->get();
+        return view('layouts.post', compact('post', 'related', 'taglist', 'listcategory'));
     }
+
 
     public function categoryall(Request $request)
     {
@@ -61,21 +59,15 @@ class MainController extends Controller
         }
 
         $listcategory = Category::all();
+        $taglist = Tag::take(20)->get();
 
-        return view('layouts.category', compact('posts', 'title', 'listcategory', 'keyword'));
+
+        return view('layouts.category', compact('posts', 'title', 'listcategory', 'keyword', 'taglist'));
     }
 
-    public function category(Request $request, $slug)
+    public function category($slug)
     {
-        $keyword = $request->keyword;
-
-        if ($keyword) {
-            $category = Category::where('name', 'LIKE', '%' . $keyword . '%')
-                ->where('slug', $slug)
-                ->firstOrFail();
-        } else {
-            $category = Category::where('slug', $slug)->firstOrFail();
-        }
+        $category = Category::where('slug', $slug)->firstOrFail();
 
         $posts = Post::where('category_id', $category->id)
             ->paginate(4);
@@ -83,6 +75,62 @@ class MainController extends Controller
         $listcategory = Category::all();
         $title = $category->name;
 
-        return view('layouts.category', compact('category', 'posts', 'title', 'listcategory', 'keyword'));
+        $postIds = $posts->pluck('id');
+
+        $tags = Tag::whereHas('posts', function ($query) use ($postIds) {
+            $query->whereIn('post_id', $postIds);
+        })->get();
+
+        $taglist = Tag::take(20)->get();
+
+
+        return view('layouts.category', compact('category', 'posts', 'title', 'listcategory', 'tags', 'taglist'));
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        if (empty($keyword)) {
+            return redirect()->back()->withErrors('Please enter a keyword to search.');
+        }
+        $query = Post::query();
+        $query->where('title', 'LIKE', '%' . $keyword . '%')
+            ->orWhereHas('category', function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', '%' . $keyword . '%');
+            })
+            ->orWhereHas('tags', function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', '%' . $keyword . '%');
+            });
+
+        $posts = $query->with('tags', 'category')->paginate(4);
+        if ($posts->isEmpty()) {
+            $title = 'Hasil Pencarian Tidak Ditemukan';
+        } else {
+            $title = 'Hasil Pencarian untuk: ' . $keyword;
+        }
+        $taglist = Tag::take(20)->get();
+        $listcategory = Category::all();
+        return view('layouts.search', compact('posts', 'title', 'listcategory', 'keyword', 'taglist'));
+    }
+
+    public function tag($name)
+    {
+        $tag = Tag::where('name', $name)->firstOrFail();
+
+        $posts = $tag->posts()->paginate(10);
+
+        $taglist = Tag::take(20)->get();
+
+        $listcategory = Category::all();
+
+        $title = 'Posts tagged with '. $tag->name;
+
+        return view('layouts.search', compact('tag', 'posts', 'taglist', 'listcategory', 'title'));
+    }
+
+    public function taglist(){
+        $taglist = Tag::all();
+        return view('layouts.taglist', compact('taglist'));
     }
 }

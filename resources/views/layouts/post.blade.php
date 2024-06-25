@@ -17,7 +17,8 @@
 
                         <!-- Adding the image -->
                         <figure class="my-4">
-                            <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->title }}" class="img-fluid w-75">
+                            <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->title }}"
+                                class="img-fluid w-75">
                         </figure>
 
                         {!! $post->content !!}
@@ -26,21 +27,45 @@
                 <div class="col-md-3">
                     <!-- ======= Sidebar ======= -->
                     <div class="aside-block">
-                        <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-popular" role="tabpanel"
-                                aria-labelledby="pills-popular-tab">
-                                <!-- You can keep the existing sidebar content here -->
-                            </div>
-                        </div>
-                    </div>
+                        <h3 class="footer-heading">Related Posts</h3>
+                        <ul class="footer-links footer-blog-entry list-unstyled">
+                            @foreach ($related as $item)
+                                <li class="d-flex mb-3">
+                                    <a href="post-{{ $item->slug }}" class="d-flex align-items-center">
+                                        <img src="{{ Storage::url($item->thumbnail) }}" alt=""
+                                            class="img-fluid me-3 thumbnail-img w-25">
+                                        <div>
+                                            <div class="post-meta">
+                                                <span class="date">{{ $item->category->name }}</span>
+                                                <span class="mx-1">&bullet;</span>
+                                                <span>{{ $item->created_at->format('M d, Y') }}</span>
+                                            </div>
+                                            <span class="post-title">{{ $item->title }}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div><!-- End Recent Posts -->
+
                     <div class="aside-block">
                         <h3 class="aside-title">Categories</h3>
                         <ul class="aside-links list-unstyled">
-                            @foreach ($category as $category)
-                                <li><a href="category-{{ $category->slug }}"><i class="bi bi-chevron-right"></i> {{ $category->name }}</a></li>
+                            @foreach ($listcategory->take(10) as $k)
+                                <li><a href="category-{{ $k->slug }}"><i class="bi bi-chevron-right"></i>
+                                        {{ $k->name }}</a></li>
                             @endforeach
                         </ul>
                     </div><!-- End Categories -->
+
+                    <div class="aside-block">
+                        <h3 class="aside-title">Tags</h3>
+                        <ul class="aside-tags list-unstyled">
+                            @foreach ($taglist as $tag)
+                                <li><a href="tag-{{ $tag->name }}">{{ $tag->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div><!-- End Tags -->
                 </div>
             </div>
         </div>

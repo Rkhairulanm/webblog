@@ -68,8 +68,19 @@ class PostResource extends Resource
                                     ->disk('public')
                                     ->directory('thumbnail')
                                     ->columnSpan('full'),
-                                TagsInput::make('tags')
-                                    ->required()
+                                Select::make('tags')
+                                    ->label('Tags')
+                                    ->relationship('tags', 'name')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(function ($component) {
+                                        return [
+                                            TextInput::make('name')
+                                                ->required()
+                                                ->label('Tag Name'),
+                                        ];
+                                    })
                                     ->columnSpan('full'),
                                 Checkbox::make('published')
                                     ->columnSpan('full'),
@@ -103,9 +114,6 @@ class PostResource extends Resource
                     ->searchable()
                     ->sortable(),
                 ImageColumn::make('thumbnail')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('tags')
                     ->searchable()
                     ->sortable(),
                 CheckboxColumn::make('published')
@@ -142,8 +150,7 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public static function getPages(): array
